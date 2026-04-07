@@ -330,7 +330,7 @@ function BloomTheStory() {
             React.createElement('div', { className: 'code-input' },
               lockerCode.map((digit, i) => React.createElement('input', { key: i, id: `locker-${i}`, type: 'text', inputMode: 'numeric', value: digit, onChange: (e) => handleLockerInput(i, e.target.value), maxLength: 1, className: lockerError ? 'error' : '', disabled: !hasPoster }))
             ),
-            !hasPoster && React.createElement('p', { className: 'hint-text-small' }, '뒤로 돌아가자'),
+            !hasPoster && React.createElement('p', { className: 'hint-text-small' }, '뒤로 돌아가 단서를 찾자'),
             lockerError && React.createElement('p', { className: 'error-text' }, '틀렸다. 다시 생각해보자.'),
             React.createElement('button', { className: 'submit-btn', onClick: handleLockerSubmit, disabled: lockerCode.some(d => d === '') || !hasPoster }, '열기')
           ),
