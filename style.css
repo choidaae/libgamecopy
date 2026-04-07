@@ -58,7 +58,16 @@
     .start-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(246, 173, 85, 0.4); }
     .choices { display: flex; flex-direction: column; gap: 0.6rem; width: 100%; max-width: 350px; }
     .choice-btn { background: rgba(40, 40, 60, 0.8); border: 1px solid #4a4a6a; color: #d4d4d4; padding: 0.9rem 1.2rem; font-family: 'Noto Serif KR', serif; font-size: 0.95rem; border-radius: 8px; cursor: pointer; transition: all 0.2s; text-align: left; }
-    .choice-btn:hover:not(:disabled) { background: rgba(246, 173, 85, 0.15); border-color: #f6ad55; transform: translateX(5px); }
+
+   @media (hover: hover) and (pointer: fine) {
+     .choice-btn:hover:not(:disabled) { 
+       background: rgba(246, 173, 85, 0.15); border-color: #f6ad55; transform: translateX(5px); 
+     }
+   }
+   
+   .choice-btn:active:not(:disabled) { 
+     background: rgba(246, 173, 85, 0.15); border-color: #f6ad55; transform: translateX(5px); 
+   }
     .choice-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .book-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; width: 100%; max-width: 350px; }
     .book-choices .choice-btn { text-align: center; padding: 0.8rem; font-size: 0.85rem; }
