@@ -12,7 +12,7 @@ const SCENES = {
 
 const ITEMS_DATA = {
   letter: { id: 'letter', name: '구겨진 편지', emoji: '✉️', description: '주머니 속에 있던 편지다.\n\n"우리가 점점 사라지고 있어.\n우리를 구해줘."\n\n라고 적혀있다.' },
-  poster: { id: 'poster', name: '세계 책과 저작권의 날 포스터', emoji: '📋', description: '📚 세계 책과 저작권의 날\n\n━━━━ 4월 23일 ━━━━\n\n1995년 UNESCO에서 매년 4월 23일로 지정.\n\n이 날은 "세인트 조지의 날"이기도 하며\n사랑하는 이에게 책과 장미를 선물합니다.\n\n1616년 4월 23일,\n셰익스피어와 세르반테스\n두 거장이 같은 날 세상을 떠났습니다.' },
+  poster: { id: 'poster', name: '세계 책과 저작권의 날 포스터', emoji: '📋', description: '📚 세계 책과 저작권의 날\n\n━━━━ 4월 23일 ━━━━\n\n1995년 UNESCO에서 매년 4월 23일로 지정.\n\n이 날은 "세인트 조지의 날"이기도 하며\n책을 사는 사람에게 꽃을 선물합니다.\n\n1616년 4월 23일,\n셰익스피어와 세르반테스\n두 거장이 같은 날 세상을 떠났습니다.' },
   candle: { id: 'candle', name: '양초와 성냥', emoji: '🕯️', description: '양초와 성냥 세트다.\n불을 붙이면 은은한 빛을 낼 수 있을 것 같다.' },
   flashlight: { id: 'flashlight', name: '손전등', emoji: '🔦', description: '"1500루멘의 초강력 LED 손전등!"\n이라고 적혀있다.\n엄청 엄청 밝다.' },
   flowers: { id: 'flowers', name: '꽃들에게 희망을', emoji: '📘', description: '트리나 폴러스의 책.\n\n"그저 먹고 자라는 것만이 삶의 전부는 아닐 거야.\n\n이런 삶과는 다른 무언가가 있을 게 분명해."' },
