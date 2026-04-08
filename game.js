@@ -384,9 +384,9 @@ function BloomTheStory() {
             React.createElement(TypeWriter, { text: '찰칵!\n\n자물쇠가 열렸다.\n안에는 [highlight]손전등[/highlight]과 [highlight]양초와 성냥[/highlight]이 들어있다.\n\n...그리고 그 순간,\n핸드폰의 배터리가 모두 닳아 꺼져버렸다.\n\n주변을 다시 밝힐 것이 필요하다.', speed: 35, onComplete: () => setTextComplete(true) })
           ),
           (textComplete || visitedScenes[SCENES.LOCKER_OPEN]) && React.createElement(React.Fragment, null,
-            React.createElement('p', { className: 'hint-text', style: { marginBottom: '1rem' } }, '💡 소지품에서 아이템을 선택하여 사용하세요.'),
+            React.createElement('p', { className: 'hint-text', style: { marginBottom: '1rem' } }, '💡 필요한 아이템을 선택하여 사용하세요.'),
             React.createElement('div', { className: 'choices' },
-              React.createElement(ChoiceButton, { onClick: () => { requestItemUse('불을 밝힐 아이템을 선택하세요', (item) => { if (item.id === 'flashlight') { showEffect('flash'); setTimeout(() => goToScene(SCENES.LIBRARY_MAIN), 600); return true; } else if (item.id === 'candle') { setPopup({ title: '🕯️ 양초와 성냥', content: '치익—\n\n작은 불꽃이 일어났다.\n하지만 양초 불빛만으론 넓은 도서관을 밝히기엔 어려울 것 같아.' }); return false; } else { setPopup({ title: item.emoji + ' ' + item.name, content: '이걸로 불을 밝힐 순 없을 것 같다.' }); return false; } }); } }, '📦 소지품 열기')
+              React.createElement(ChoiceButton, { onClick: () => { requestItemUse('불을 밝힐 아이템을 선택하세요', (item) => { if (item.id === 'flashlight') { showEffect('flash'); setTimeout(() => goToScene(SCENES.LIBRARY_MAIN), 600); return true; } else if (item.id === 'candle') { setPopup({ title: '🕯️ 양초와 성냥', content: '치익—\n\n작은 불꽃이 일어났다.\n하지만 양초 불빛만으론 넓은 도서관을 밝히기엔 어려울 것 같아.' }); return false; } else { setPopup({ title: item.emoji + ' ' + item.name, content: '이걸로 불을 밝힐 순 없을 것 같다.' }); return false; } }); } }, '📦 아이템 사용하기')
             )
           )
         );
@@ -577,7 +577,7 @@ function BloomTheStory() {
             )
           ),
           React.createElement('div', { className: 'scene-text' },
-            React.createElement('p', null, '유리관 아래에 빈 메모지가 있다.')
+            React.createElement('p', null, '유리관 아래에 메모지가 있다.')
           ),
           React.createElement('div', { className: 'message-box golden' },
             React.createElement('p', null, '"그 자는 극장에서 우리에게', React.createElement('br'), '인생은 그림자일 뿐이라고 말했지.'),
@@ -585,7 +585,7 @@ function BloomTheStory() {
             React.createElement('p', null, "'그것'을 꺼뜨리지 말고 내게 가져와줘.\"")
           ),
           React.createElement('div', { className: 'choices' },
-            React.createElement(ChoiceButton, { onClick: () => { requestItemUse("'그것'을 가져오세요", (item) => { if (item.id === 'candle') { showEffect('candle'); setTimeout(() => goToScene(SCENES.COPYRIGHT_PUZZLE), 1500); return true; } else if (item.id === 'flashlight') { setPopup({ title: '🔦 손전등', content: '손전등은 "그것"이 아닌 것 같다.\n\n메모에서 말한 "그것"은 다른 것 같다.' }); return false; } else { setPopup({ title: item.emoji + ' ' + item.name, content: '이건 아닌 것 같다.' }); return false; } }); } }, '📦 소지품 열기')
+            React.createElement(ChoiceButton, { onClick: () => { requestItemUse("'그것'을 가져오세요", (item) => { if (item.id === 'candle') { showEffect('candle'); setTimeout(() => goToScene(SCENES.COPYRIGHT_PUZZLE), 1500); return true; } else if (item.id === 'flashlight') { setPopup({ title: '🔦 손전등', content: '손전등은 "그것"이 아닌 것 같다.\n\n메모에서 말한 "그것"은 다른 것 같다.' }); return false; } else { setPopup({ title: item.emoji + ' ' + item.name, content: '이건 아닌 것 같다.' }); return false; } }); } }, '📦 아이템 사용하기')
           )
         );
 
