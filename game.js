@@ -12,7 +12,7 @@ const SCENES = {
 
 const ITEMS_DATA = {
   letter: { id: 'letter', name: '구겨진 편지', emoji: '✉️', description: '주머니 속에 있던 편지다.\n\n"우리가 점점 사라지고 있어.\n우리를 구해줘."\n\n라고 적혀있다.' },
-  poster: { id: 'poster', name: '세계 책의 날 포스터', emoji: '📋', description: '📚 세계 책과 저작권의 날\n\n━━━━ 4월 23일 ━━━━\n\n1995년 UNESCO에서 매년 4월 23일로 지정.\n\n이 날은 "세인트 조지의 날"이기도 하며\n사랑하는 이에게 책과 장미를 선물합니다.\n\n1616년 4월 23일,\n셰익스피어와 세르반테스\n두 거장이 같은 날 세상을 떠났습니다.' },
+  poster: { id: 'poster', name: '세계 책과 저작권의 날 포스터', emoji: '📋', description: '📚 세계 책과 저작권의 날\n\n━━━━ 4월 23일 ━━━━\n\n1995년 UNESCO에서 매년 4월 23일로 지정.\n\n이 날은 "세인트 조지의 날"이기도 하며\n사랑하는 이에게 책과 장미를 선물합니다.\n\n1616년 4월 23일,\n셰익스피어와 세르반테스\n두 거장이 같은 날 세상을 떠났습니다.' },
   candle: { id: 'candle', name: '양초와 성냥', emoji: '🕯️', description: '양초와 성냥 세트다.\n불을 붙이면 은은한 빛을 낼 수 있을 것 같다.' },
   flashlight: { id: 'flashlight', name: '손전등', emoji: '🔦', description: '"1500루멘의 초강력 LED 손전등!"\n이라고 적혀있다.\n엄청 엄청 밝다.' },
   flowers: { id: 'flowers', name: '꽃들에게 희망을', emoji: '📘', description: '트리나 폴러스의 책.\n\n"그저 먹고 자라는 것만이 삶의 전부는 아닐 거야.\n\n이런 삶과는 다른 무언가가 있을 게 분명해."' },
@@ -21,7 +21,7 @@ const ITEMS_DATA = {
   quixote: { id: 'quixote', name: '돈키호테', emoji: '📗', description: '세르반테스의 책.\n\n"장차 이룩할 수 있는 세상을 상상하는 내가 미친 거요?\n\n아니면 세상을 있는 그대로만 보는 사람이 미친 거요?"' },
   wiltedFlower: { id: 'wiltedFlower', name: '시든 꽃', emoji: '🥀', description: '유리관에 담겨있던 시든 꽃.\n\n아직 완전히 죽지는 않은 것 같다.\n다시 피어날 수 있을까?' },
   secretBadge: { id: 'secretBadge', name: '비밀의 증표', emoji: '🔮', description: '✨ 히든 아이템 ✨\n\n"SECRET"\n\n이야기 속에 숨겨진 비밀을 찾아낸 자에게\n주어지는 신비로운 증표.\n\n당신은 진정한 이야기 탐험가입니다.\n\n(이 아이템을 캡쳐해서 선생님께 보여주면 특별한 선물이 있을지도?)' },
-  librarianLetter: { id: 'librarianLetter', name: '사서쌤의 편지', emoji: '💌', description: '✨ 히든 아이템 ✨\n\n"to. 사랑하는 우리 학생들에게,\n\n네가 이 편지를 찾았다는 건\n평소 도서관에 관심이 정말 많다는 뜻이겠지?\n\n오늘도 책과 함께 좋은 하루 보내길.\n오늘 넘긴 한 페이지가 쌓여, \n내일의 네가 더 단단해지길.\n\nfrom. 항상 응원하는 도서관 사서쌤이"\n\n(이 아이템을 캡쳐해서 선생님께 보여주면 특별한 선물이 있을지도?)' }
+  librarianLetter: { id: 'librarianLetter', name: '사서쌤의 편지', emoji: '💌', description: '✨ 히든 아이템 ✨\n\n"to. 사랑하는 학생들에게,\n\n네가 이 편지를 찾았다는 건\n평소 도서관에 관심이 정말 많다는 뜻이겠지?\n\n오늘도 책과 함께 좋은 하루 보내길.\n오늘 넘긴 한 페이지가 쌓여, \n내일의 네가 더 단단해지길.\n\nfrom. 항상 응원하는\n도서관 사서쌤이"\n\n(이 아이템을 캡쳐해서 선생님께 보여주면 특별한 선물이 있을지도?)' }
 };
 
 const QUOTE_PAIRS = [
@@ -31,29 +31,53 @@ const QUOTE_PAIRS = [
   { id: 4, work: '한여름 밤의 꿈', quote: '사랑은 눈이 아니라 마음으로 보는 것' }
 ];
 
+const parseSegments = (text) => {
+  const parts = text.split(/(\[highlight\].*?\[\/highlight\]|\[skyblue\].*?\[\/skyblue\])/g);
+  const segments = [];
+  parts.forEach(part => {
+    if (part.startsWith('[highlight]')) {
+      segments.push({ text: part.replace(/\[\/?highlight\]/g, ''), className: 'highlight' });
+    } else if (part.startsWith('[skyblue]')) {
+      segments.push({ text: part.replace(/\[\/?skyblue\]/g, ''), className: 'skyblue-text' });
+    } else {
+      segments.push({ text: part, className: null });
+    }
+  });
+  return segments;
+};
+
+const renderSegments = (segments, charCount) => {
+  let remaining = charCount;
+  const result = [];
+  segments.forEach((seg, si) => {
+    if (remaining <= 0) return;
+    const visible = seg.text.slice(0, remaining);
+    remaining -= seg.text.length;
+    const lines = visible.split('\n');
+    const content = lines.map((line, j) => React.createElement(React.Fragment, { key: j }, line, j < lines.length - 1 && React.createElement('br')));
+    if (seg.className) {
+      result.push(React.createElement('span', { key: si, className: seg.className }, content));
+    } else {
+      result.push(React.createElement(React.Fragment, { key: si }, content));
+    }
+  });
+  return result;
+};
+
 const TypeWriter = ({ text, speed = 30, onComplete, className = '' }) => {
-  const [displayedText, setDisplayedText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const segments = parseSegments(text);
+  const totalChars = segments.reduce((sum, s) => sum + s.text.length, 0);
+  const [charCount, setCharCount] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  useEffect(() => { setDisplayedText(''); setCurrentIndex(0); setIsComplete(false); }, [text]);
+  useEffect(() => { setCharCount(0); setIsComplete(false); }, [text]);
   useEffect(() => {
-    if (currentIndex < text.length) {
-      const timer = setTimeout(() => { setDisplayedText(prev => prev + text[currentIndex]); setCurrentIndex(prev => prev + 1); }, speed);
+    if (charCount < totalChars) {
+      const timer = setTimeout(() => setCharCount(prev => prev + 1), speed);
       return () => clearTimeout(timer);
-    } else if (!isComplete && text.length > 0) { setIsComplete(true); onComplete?.(); }
-  }, [currentIndex, text, speed, onComplete, isComplete]);
-  
-  const handleSkip = () => { setDisplayedText(text); setCurrentIndex(text.length); };
-  
-  const renderText = (txt) => {
-    const parts = txt.split(/(\[highlight\].*?\[\/highlight\]|\[skyblue\].*?\[\/skyblue\])/g);
-    return parts.map((part, i) => {
-      if (part.startsWith('[highlight]')) return React.createElement('span', { key: i, className: 'highlight' }, part.replace(/\[\/?highlight\]/g, ''));
-      if (part.startsWith('[skyblue]')) return React.createElement('span', { key: i, className: 'skyblue-text' }, part.replace(/\[\/?skyblue\]/g, ''));
-      return React.createElement(React.Fragment, { key: i }, part.split('\n').map((line, j) => React.createElement(React.Fragment, { key: j }, line, j < part.split('\n').length - 1 && React.createElement('br'))));
-    });
-  };
-  return React.createElement('div', { className, onClick: handleSkip }, renderText(displayedText), currentIndex < text.length && React.createElement('span', { className: 'cursor' }, '▌'));
+    } else if (!isComplete && totalChars > 0) { setIsComplete(true); onComplete?.(); }
+  }, [charCount, totalChars, speed, onComplete, isComplete]);
+  const handleSkip = () => { setCharCount(totalChars); };
+  return React.createElement('div', { className, onClick: handleSkip }, renderSegments(segments, charCount), charCount < totalChars && React.createElement('span', { className: 'cursor' }, '▌'));
 };
 
 const EffectOverlay = ({ type, onComplete }) => {
@@ -118,7 +142,21 @@ const PopupModal = ({ title, content, onClose, showItemGet }) => {
   );
 };
 
-const ChoiceButton = ({ children, onClick, disabled = false }) => React.createElement('button', { className: `choice-btn ${disabled ? 'disabled' : ''}`, onClick, disabled }, children);
+const ChoiceButton = ({ children, onClick, disabled = false }) => {
+  const handleTouch = (e) => {
+    if (disabled) return;
+    e.preventDefault();
+    const btn = e.currentTarget;
+    btn.classList.add('touch-active');
+    setTimeout(() => { btn.classList.remove('touch-active'); onClick && onClick(); }, 80);
+  };
+  return React.createElement('button', {
+    className: `choice-btn ${disabled ? 'disabled' : ''}`,
+    onTouchEnd: handleTouch,
+    onClick: (e) => { if (e.isTrusted && 'ontouchstart' in window) return; onClick && onClick(); },
+    disabled
+  }, children);
+};
 
 function BloomTheStory() {
   const [scene, setScene] = useState(SCENES.INTRO);
@@ -153,6 +191,7 @@ function BloomTheStory() {
   const [secretRoomItemGiven, setSecretRoomItemGiven] = useState(false);
   const [foundSecret, setFoundSecret] = useState(false);
   const [foundLibrarianLetter, setFoundLibrarianLetter] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   useEffect(() => { if (notificationQueue.length > 0 && !notification) { setNotification(notificationQueue[0]); setNotificationQueue(prev => prev.slice(1)); setTimeout(() => setNotification(null), 2000); } }, [notificationQueue, notification]);
 
@@ -176,13 +215,13 @@ function BloomTheStory() {
     }
   };
 
-  useEffect(() => { if (scene === SCENES.PHONE_ON && !phoneOnItemGiven) { const t = setTimeout(() => { addItem('letter'); setPhoneOnItemGiven(true); }, 100); return () => clearTimeout(t); } }, [scene, phoneOnItemGiven, addItem]);
+  useEffect(() => { if (scene === SCENES.PHONE_ON && !phoneOnItemGiven) { const t = setTimeout(() => { addItem('letter'); setPhoneOnItemGiven(true); setShowTutorial(true); }, 100); return () => clearTimeout(t); } }, [scene, phoneOnItemGiven, addItem]);
   useEffect(() => { if (scene === SCENES.LOCKER_OPEN && !lockerOpenItemsGiven) { showEffect('unlock'); addItem('flashlight'); addItem('candle'); setLockerOpenItemsGiven(true); } }, [scene, lockerOpenItemsGiven, addItem]);
   useEffect(() => { if (scene === SCENES.SECRET_ROOM && !secretRoomItemGiven) { const t = setTimeout(() => { addItem('wiltedFlower'); setSecretRoomItemGiven(true); }, 500); return () => clearTimeout(t); } }, [scene, secretRoomItemGiven, addItem]);
   useEffect(() => { if (scene === SCENES.BOOKSHELF_PUZZLE && !anagramInitialized) { setAnagramLetters(['C','E','R','V','A','N','T','E','S'].sort(() => Math.random() - 0.5)); setAnagramSlots(['','','','','','','','','']); setAnagramInitialized(true); } }, [scene, anagramInitialized]);
   useEffect(() => { if (scene === SCENES.THEATER_PUZZLE && cards.length === 0) { const allCards = QUOTE_PAIRS.flatMap(pair => [{ id: `work-${pair.id}`, pairId: pair.id, type: 'work', content: pair.work }, { id: `quote-${pair.id}`, pairId: pair.id, type: 'quote', content: pair.quote }]); setCards(allCards.sort(() => Math.random() - 0.5)); } }, [scene, cards.length]);
 
-  const goToScene = (newScene, skipAnimation = false) => { if (skipAnimation || visitedScenes[newScene]) setTextComplete(true); else setTextComplete(false); setScene(newScene); markVisited(newScene); };
+  const goToScene = (newScene, skipAnimation = false) => { markVisited(scene); if (skipAnimation || visitedScenes[newScene]) setTextComplete(true); else setTextComplete(false); setScene(newScene); };
 
   const handleLockerInput = (index, value) => { if (!/^\d*$/.test(value)) return; const newCode = [...lockerCode]; newCode[index] = value.slice(-1); setLockerCode(newCode); setLockerError(false); if (value && index < 3) document.getElementById(`locker-${index + 1}`)?.focus(); };
   const handleLockerSubmit = () => { if (lockerCode.join('') === '0423') goToScene(SCENES.LOCKER_OPEN); else { setLockerError(true); setLockerCode(['','','','']); document.getElementById('locker-0')?.focus(); } };
@@ -209,7 +248,7 @@ function BloomTheStory() {
     if (['저작권', 'copyright'].includes(n)) { goToScene(SCENES.ENDING); }
     else if (n === '도서관' && !foundLibrarianLetter) {
       setFoundLibrarianLetter(true); showEffect('easter');
-      setTimeout(() => { addItem('librarianLetter'); setPopup({ title: '💌 비밀 편지 발견! 💌', content: '도서관에 관심이 많은 친구네요!\n\n특별한 편지가 소지품에 추가되었습니다.\n\n하지만 퍼즐의 정답은 따로 있어요.\n다시 도전해보세요!' }); setCopyrightAnswer(''); setCopyrightError(false); }, 1500);
+      setTimeout(() => { addItem('librarianLetter'); setPopup({ title: '💌 비밀 편지 발견! 💌', content: '도서관에 관심이 많군요!\n\n특별한 편지가 소지품에 추가되었습니다.\n\n하지만 퍼즐의 정답은 따로 있어요.\n다시 도전해보세요!' }); setCopyrightAnswer(''); setCopyrightError(false); }, 1500);
     } else { setCopyrightError(true); }
   };
 
@@ -274,8 +313,8 @@ function BloomTheStory() {
               : React.createElement(TypeWriter, { text: '핸드폰을 꺼내려 주머니에 손을 넣으니\n[highlight]구겨진 편지[/highlight]가 손에 잡힌다.\n\n핸드폰 배터리는 10%밖에 남지 않아\n금방이라도 꺼질 것 같다.\n\n불빛을 비추니 눈앞에\n[skyblue]포스터[/skyblue]와 [skyblue]사물함[/skyblue]이 보인다.', speed: 35, onComplete: () => setTextComplete(true) })
           ),
           (textComplete || visitedScenes[SCENES.PHONE_ON]) && React.createElement('div', { className: 'choices' },
-            React.createElement(ChoiceButton, { onClick: () => { addItem('poster'); goToScene(SCENES.POSTER_VIEW, true); } }, '📋 포스터를 살펴본다'),
-            React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.LOCKER_PUZZLE, true) }, '🔒 사물함을 살펴본다')
+            React.createElement(ChoiceButton, { onClick: () => { addItem('poster'); goToScene(SCENES.POSTER_VIEW); } }, '📋 포스터를 살펴본다'),
+            React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.LOCKER_PUZZLE) }, '🔒 사물함을 살펴본다')
           )
         );
 
@@ -342,15 +381,7 @@ function BloomTheStory() {
       case SCENES.LOCKER_OPEN:
         return React.createElement('div', { className: 'scene' },
           React.createElement('div', { className: 'scene-text' },
-            visitedScenes[SCENES.LOCKER_OPEN]
-              ? React.createElement('p', null, 
-                  '찰칵!', React.createElement('br'), React.createElement('br'), 
-                  '자물쇠가 열렸다.', React.createElement('br'), 
-                  '안에는 ', React.createElement('span', { className: 'highlight' }, '손전등'), '과 ', React.createElement('span', { className: 'highlight' }, '양초와 성냥'), '이 들어있다.', React.createElement('br'), React.createElement('br'), 
-                  '...그리고 그 순간, 핸드폰의 배터리가 모두 닳아 꺼져버렸다.', React.createElement('br'), React.createElement('br'), 
-                  '주변을 다시 밝힐 것이 필요하다.'
-                )
-              : React.createElement(TypeWriter, { text: '찰칵!\n\n자물쇠가 열렸다.\n안에는 [highlight]손전등[/highlight]과 [highlight]양초와 성냥[/highlight]이 들어있다.\n\n...그리고 그 순간, 핸드폰이 꺼져버렸다.\n\n주변을 밝혀야 할 것 같다.', speed: 35, onComplete: () => setTextComplete(true) })
+            React.createElement(TypeWriter, { text: '찰칵!\n\n자물쇠가 열렸다.\n안에는 [highlight]손전등[/highlight]과 [highlight]양초와 성냥[/highlight]이 들어있다.\n\n...그리고 그 순간,\n핸드폰의 배터리가 모두 닳아 꺼져버렸다.\n\n주변을 다시 밝힐 것이 필요하다.', speed: 35, onComplete: () => setTextComplete(true) })
           ),
           (textComplete || visitedScenes[SCENES.LOCKER_OPEN]) && React.createElement(React.Fragment, null,
             React.createElement('p', { className: 'hint-text', style: { marginBottom: '1rem' } }, '💡 소지품에서 아이템을 선택하여 사용하세요.'),
@@ -377,9 +408,9 @@ function BloomTheStory() {
               : React.createElement(TypeWriter, { text: '손전등을 켜자 강렬한 빛이 쏟아진다.\n\n세상에. 도서관 책장에 책 제목들이\n점점 희미해져가고 있잖아!\n\n이대로 가다간 모든 이야기가 사라져버릴 것 같다.\n뭔가 방법을 찾아야 해.\n\n눈앞에는 [skyblue]정기간행물 코너[/skyblue],\n[skyblue]북 큐레이션 코너[/skyblue],\n그리고 [skyblue]봉인된 책장[/skyblue]이 보인다.', speed: 35, onComplete: () => setTextComplete(true) })
           ),
           (textComplete || visitedScenes[SCENES.LIBRARY_MAIN]) && React.createElement('div', { className: 'choices' },
-            React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.PERIODICALS, true) }, '📰 정기간행물 코너를 둘러본다'),
-            React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.CURATION, true) }, '📚 북 큐레이션 코너를 둘러본다'),
-            React.createElement(ChoiceButton, { onClick: () => { if (hasAllBooks()) goToScene(SCENES.BOOKSHELF_SELECT, true); else setPopup({ title: '🔮 봉인된 책장을 둘러본다', content: '책장 앞에 빈 책꽂이 두 칸이 보인다.\n\n뭔가 책을 꽂아야 할 것 같은데...\n일단 주변을 더 둘러보자.' }); } }, '🔮 봉인된 책장')
+            React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.PERIODICALS) }, '📰 정기간행물 코너를 둘러본다'),
+            React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.CURATION) }, '📚 북 큐레이션 코너를 둘러본다'),
+            React.createElement(ChoiceButton, { onClick: () => { if (hasAllBooks()) goToScene(SCENES.BOOKSHELF_SELECT); else setPopup({ title: '🔮 봉인된 책장을 둘러본다', content: '책장 앞에 빈 책꽂이 두 칸이 보인다.\n\n뭔가 책을 꽂아야 할 것 같은데...\n일단 주변을 더 둘러보자.' }); } }, '🔮 봉인된 책장')
           )
         );
 
@@ -436,8 +467,9 @@ function BloomTheStory() {
           bookshelfError && React.createElement('p', { className: 'error-text' }, '아무 일도 일어나지 않는다...'),
           React.createElement('button', { className: 'hint-toggle', onClick: () => setBookshelfHint(!bookshelfHint) }, '💡 힌트 ', bookshelfHint ? '숨기기' : '보기'),
           bookshelfHint && React.createElement('div', { className: 'hint-box' },
-            React.createElement('p', null, '정기간행물 코너에 "사망자의 책을 가져와"라고 적혀있었다.'),
-            React.createElement('p', null, '갖고 있는 아이템에서 어떤 사람의 책을 말하는지 단서를 찾아보자.')
+            React.createElement('p', null, '정기간행물 코너에 뭔가 적혀있다.'),
+            React.createElement('p', null, '갖고 있는 아이템에서'),                                   
+            React.createElement('p', null, '어떤 사람의 책을 말하는지 단서를 찾아보자.')
           ),
           React.createElement('div', { className: 'puzzle-buttons' },
             React.createElement('button', { className: 'reset-btn', onClick: () => setSelectedBooks([]) }, '초기화'),
@@ -495,7 +527,7 @@ function BloomTheStory() {
               React.createElement('p', null, '그의 작품과 명대사를 연결하라."')
             ),
             React.createElement('div', { className: 'choices' },
-              React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.THEATER_PUZZLE, true) }, '카드를 살펴본다')
+              React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.THEATER_PUZZLE) }, '카드를 살펴본다')
             )
           )
         );
@@ -533,7 +565,7 @@ function BloomTheStory() {
               : React.createElement(TypeWriter, { text: '모든 카드가 제자리를 찾자\n무대 뒤편의 문이 열린다.\n\n도서관 가장 깊은 곳.\n비밀의 서고.\n\n오래된 책들 사이로\n유리관 하나가 빛나고 있다.\n\n그 안에는... 말라버린 꽃 한 송이.', speed: 35, onComplete: () => setTextComplete(true) })
           ),
           (textComplete || visitedScenes[SCENES.SECRET_ROOM]) && React.createElement('div', { className: 'choices' },
-            React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.CANDLE_SELECT, true) }, '시든 꽃에게 다가간다')
+            React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.CANDLE_SELECT) }, '시든 꽃에게 다가간다')
           )
         );
 
@@ -610,6 +642,16 @@ function BloomTheStory() {
 
   return React.createElement('div', { className: 'game-container' },
     activeEffect && React.createElement(EffectOverlay, { type: activeEffect, onComplete: () => setActiveEffect(null) }),
+    showTutorial && React.createElement('div', { className: 'tutorial-overlay', onClick: () => setShowTutorial(false) },
+      React.createElement('div', { className: 'tutorial-arrow' }),
+      React.createElement('div', { className: 'tutorial-box' },
+        React.createElement('p', null, '게임에서 얻은 아이템은'),
+        React.createElement('p', null, '소지품에서 확인할 수 있습니다.'),
+        React.createElement('p', null, '아이템에서 단서를 찾아'),
+        React.createElement('p', null, '도서관을 탈출해보세요!'),
+        React.createElement('span', { className: 'tutorial-dismiss' }, '탭하여 닫기')
+      )
+    ),
     React.createElement(GameInventory, { items, isOpen: inventoryOpen, onClose: handleInventoryClose, notification, useMode: inventoryUseMode, onUseItem: handleUseItem, usePrompt: inventoryPrompt }),
     renderScene(),
     React.createElement(PopupModal, { title: popup?.title, content: popup?.content, showItemGet: popup?.showItemGet, onClose: () => setPopup(null) })
