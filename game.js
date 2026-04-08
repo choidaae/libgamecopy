@@ -338,8 +338,8 @@ function BloomTheStory() {
           React.createElement('p', null, 
             '이 날은 스페인 카탈루냐 지방의', React.createElement('br'), 
             React.createElement('strong', null, '"세인트 조지의 날"'), '이기도 하며,', React.createElement('br'), 
-            '사람들은 사랑하는 이에게', React.createElement('br'), 
-            React.createElement('strong', null, '📖책과 장미🌹'), '를 선물합니다.'
+            '책을 사는 사람에게', React.createElement('br'), 
+            React.createElement('strong', null, '꽃🌹'), '을 선물합니다.'
           ),
           React.createElement('p', null, 
             '또한 1616년 4월 23일,', React.createElement('br'), 
