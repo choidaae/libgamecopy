@@ -15,10 +15,10 @@ const ITEMS_DATA = {
   poster: { id: 'poster', name: '세계 책과 저작권의 날 포스터', emoji: '📋', description: '📚 세계 책과 저작권의 날\n\n━━━━ 4월 23일 ━━━━\n\n1995년 UNESCO에서 매년 4월 23일로 지정.\n\n이 날은 "세인트 조지의 날"이기도 하며\n책을 사는 사람에게 꽃을 선물합니다.\n\n1616년 4월 23일,\n셰익스피어와 세르반테스\n두 거장이 같은 날 세상을 떠났습니다.' },
   candle: { id: 'candle', name: '양초와 성냥', emoji: '🕯️', description: '양초와 성냥 세트다.\n불을 붙이면 은은한 빛을 낼 수 있을 것 같다.' },
   flashlight: { id: 'flashlight', name: '손전등', emoji: '🔦', description: '"1500루멘의 초강력 LED 손전등!"\n이라고 적혀있다.\n엄청 엄청 밝다.' },
-  flowers: { id: 'flowers', name: '꽃들에게 희망을', emoji: '📘', description: '트리나 폴러스의 책.\n\n"그저 먹고 자라는 것만이 삶의 전부는 아닐 거야.\n\n이런 삶과는 다른 무언가가 있을 게 분명해."' },
+  flowers: { id: 'flowers', name: '꽃들에게 희망을', emoji: '📘', description: '트리나 폴러스의 책.\n\n"그저 먹고 자라는 것만이 삶의 전부는 아닐 거야.\n이런 삶과는 다른 무언가가 있을 게 분명해."' },
   oldman: { id: 'oldman', name: '노인과 바다', emoji: '📙', description: '헤밍웨이의 책.\n\n"물론 바다는 상냥하고 무척이나 아름답지.\n\n하지만 때로는 정말 잔인해지기도 하고\n어느 순간 휘몰아치기도 하잖아."' },
   macbeth: { id: 'macbeth', name: '맥베스', emoji: '📕', description: '셰익스피어의 책.\n\n"꺼져라, 꺼져라, 덧없는 촛불이여.\n인생은 한낱 흔들리는 그림자일 뿐.\n\n가련한 배우, 맡은 시간엔 무대 위에서\n활개치고 안달하지만\n얼마 안 가 영영 기억에서 지워져 버리지 않는가."' },
-  quixote: { id: 'quixote', name: '돈키호테', emoji: '📗', description: '세르반테스의 책.\n\n"장차 이룩할 수 있는 세상을 상상하는 내가 미친 거요?\n\n아니면 세상을 있는 그대로만 보는 사람이 미친 거요?"' },
+  quixote: { id: 'quixote', name: '돈키호테', emoji: '📗', description: '세르반테스의 책.\n\n"주인님. 저기 보이는 것은 거인이 아니라 풍차인데요. 팔처럼 보이는 건 날개고요."\n\n"그건 네가 이런 모험을 잘 몰라서 하는 소리다. 저놈들은 거인이야. 만약 무섭거든 저만큼 떨어져서 기도나 하고 있거라."' },
   wiltedFlower: { id: 'wiltedFlower', name: '시든 꽃', emoji: '🥀', description: '유리관에 담겨있던 시든 꽃.\n\n아직 완전히 죽지는 않은 것 같다.\n다시 피어날 수 있을까?' },
   secretBadge: { id: 'secretBadge', name: '비밀의 증표', emoji: '🔮', description: '✨ 히든 아이템 ✨\n\n"SECRET"\n\n이야기 속에 숨겨진 비밀을 찾아낸 자에게\n주어지는 신비로운 증표.\n\n당신은 진정한 이야기 탐험가입니다.\n\n(이 아이템을 캡쳐해서 선생님께 보여주면 특별한 선물이 있을지도?)' },
   librarianLetter: { id: 'librarianLetter', name: '사서쌤의 편지', emoji: '💌', description: '✨ 히든 아이템 ✨\n\n"to. 사랑하는 학생들에게,\n\n네가 이 편지를 찾았다는 건\n평소 도서관에 관심이 정말 많다는 뜻이겠지?\n\n오늘도 책과 함께 좋은 하루 보내길.\n오늘 넘긴 한 페이지가 쌓여, \n내일의 네가 더 단단해지길.\n\nfrom. 항상 응원하는\n도서관 사서쌤이"\n\n(이 아이템을 캡쳐해서 선생님께 보여주면 특별한 선물이 있을지도?)' }
@@ -440,7 +440,7 @@ function BloomTheStory() {
             React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('flowers'); setPopup({ title: '📘 꽃들에게 희망을', content: '"그저 먹고 자라는 것만이 삶의 전부는 아닐 거야.\n\n이런 삶과는 다른 무언가가 있을 게 분명해."', showItemGet: isNew ? '📘 꽃들에게 희망을' : null }); } }, '📘 꽃들에게 희망을'),
             React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('oldman'); setPopup({ title: '📙 노인과 바다', content: '"물론 바다는 상냥하고 무척이나 아름답지.\n\n하지만 때로는 정말 잔인해지기도 하고\n어느 순간 휘몰아치기도 하잖아."', showItemGet: isNew ? '📙 노인과 바다' : null }); } }, '📙 노인과 바다'),
             React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('macbeth'); setPopup({ title: '📕 맥베스', content: '"꺼져라, 꺼져라, 덧없는 촛불이여.\n인생은 한낱 흔들리는 그림자일 뿐."\n\n— 셰익스피어', showItemGet: isNew ? '📕 맥베스' : null }); } }, '📕 맥베스'),
-            React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('quixote'); setPopup({ title: '📗 돈키호테', content: '"장차 이룩할 수 있는 세상을 상상하는 내가 미친 거요?\n\n아니면 세상을 있는 그대로만 보는 사람이 미친 거요?"\n\n— 세르반테스', showItemGet: isNew ? '📗 돈키호테' : null }); } }, '📗 돈키호테')
+            React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('quixote'); setPopup({ title: '📗 돈키호테', content: '"주인님. 저기 보이는 것은 거인이 아니라 풍차인데요. 팔처럼 보이는 건 날개고요."\n\n"그건 네가 이런 모험을 잘 몰라서 하는 소리다. 저놈들은 거인이야. 만약 무섭거든 저만큼 떨어져서 기도나 하고 있거라."\n\n— 세르반테스', showItemGet: isNew ? '📗 돈키호테' : null }); } }, '📗 돈키호테')
           ),
           React.createElement('div', { className: 'choices back-btn-area' },
             React.createElement(ChoiceButton, { onClick: () => goToScene(SCENES.LIBRARY_MAIN, true) }, '뒤로 돌아간다')
