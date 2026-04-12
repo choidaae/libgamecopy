@@ -15,7 +15,7 @@ const ITEMS_DATA = {
   poster: { id: 'poster', name: '세계 책과 저작권의 날 포스터', emoji: '📋', description: '📚 세계 책과 저작권의 날\n\n━━━━ 4월 23일 ━━━━\n\n1995년 UNESCO에서 매년 4월 23일로 지정.\n\n이 날은 "세인트 조지의 날"이기도 하며\n책을 사는 사람에게 꽃을 선물합니다.\n\n1616년 4월 23일,\n셰익스피어와 세르반테스\n두 거장이 같은 날 세상을 떠났습니다.' },
   candle: { id: 'candle', name: '양초와 성냥', emoji: '🕯️', description: '양초와 성냥 세트다.\n불을 붙이면 은은한 빛을 낼 수 있을 것 같다.' },
   flashlight: { id: 'flashlight', name: '손전등', emoji: '🔦', description: '"1500루멘의 초강력 LED 손전등!"\n이라고 적혀있다.\n엄청 엄청 밝다.' },
-  flowers: { id: 'flowers', name: '꽃들에게 희망을', emoji: '📘', description: '트리나 폴러스의 책.\n\n"그저 먹고 자라는 것만이 삶의 전부는 아닐 거야.\n이런 삶과는 다른 무언가가 있을 게 분명해."' },
+  flowers: { id: 'flowers', name: '꽃들에게 희망을', emoji: '📘', description: '트리나 폴러스의 책.\n\n"그저 먹고 자라는 것만이\n삶의 전부는 아닐 거야.\n이런 삶과는 다른 무언가가 있을 게 분명해."' },
   oldman: { id: 'oldman', name: '노인과 바다', emoji: '📙', description: '헤밍웨이의 책.\n\n"물론 바다는 상냥하고 무척이나 아름답지.\n\n하지만 때로는 정말 잔인해지기도 하고\n어느 순간 휘몰아치기도 하잖아."' },
   macbeth: { id: 'macbeth', name: '맥베스', emoji: '📕', description: '셰익스피어의 책.\n\n"꺼져라, 꺼져라, 덧없는 촛불이여.\n인생은 한낱 흔들리는 그림자일 뿐.\n\n가련한 배우, 맡은 시간엔 무대 위에서\n활개치고 안달하지만\n얼마 안 가 영영 기억에서 지워져 버리지 않는가."' },
   quixote: { id: 'quixote', name: '돈키호테', emoji: '📗', description: '세르반테스의 책.\n\n"주인님. 저기 보이는 것은 거인이 아니라 풍차인데요. 팔처럼 보이는 건 날개고요."\n\n"그건 네가 이런 모험을 잘 몰라서 하는 소리다. 저놈들은 거인이야. 만약 무섭거든 저만큼 떨어져서 기도나 하고 있거라."' },
@@ -437,7 +437,7 @@ function BloomTheStory() {
             React.createElement('p', null, '어떤 책을 살펴볼까?')
           ),
           React.createElement('div', { className: 'book-choices' },
-            React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('flowers'); setPopup({ title: '📘 꽃들에게 희망을', content: '"그저 먹고 자라는 것만이 삶의 전부는 아닐 거야.\n\n이런 삶과는 다른 무언가가 있을 게 분명해."', showItemGet: isNew ? '📘 꽃들에게 희망을' : null }); } }, '📘 꽃들에게 희망을'),
+            React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('flowers'); setPopup({ title: '📘 꽃들에게 희망을', content: '"그저 먹고 자라는 것만이\n삶의 전부는 아닐 거야.\n이런 삶과는 다른 무언가가 있을 게 분명해."', showItemGet: isNew ? '📘 꽃들에게 희망을' : null }); } }, '📘 꽃들에게 희망을'),
             React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('oldman'); setPopup({ title: '📙 노인과 바다', content: '"물론 바다는 상냥하고 무척이나 아름답지.\n\n하지만 때로는 정말 잔인해지기도 하고\n어느 순간 휘몰아치기도 하잖아."', showItemGet: isNew ? '📙 노인과 바다' : null }); } }, '📙 노인과 바다'),
             React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('macbeth'); setPopup({ title: '📕 맥베스', content: '"꺼져라, 꺼져라, 덧없는 촛불이여.\n인생은 한낱 흔들리는 그림자일 뿐."\n\n— 셰익스피어', showItemGet: isNew ? '📕 맥베스' : null }); } }, '📕 맥베스'),
             React.createElement(ChoiceButton, { onClick: () => { const isNew = addItem('quixote'); setPopup({ title: '📗 돈키호테', content: '"주인님. 저기 보이는 것은 거인이 아니라 풍차인데요. 팔처럼 보이는 건 날개고요."\n\n"그건 네가 이런 모험을 잘 몰라서 하는 소리다. 저놈들은 거인이야. 만약 무섭거든 저만큼 떨어져서 기도나 하고 있거라."\n\n— 세르반테스', showItemGet: isNew ? '📗 돈키호테' : null }); } }, '📗 돈키호테')
